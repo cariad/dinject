@@ -17,8 +17,6 @@ class Block:
         """Writes a Markdown code block."""
 
         writer.write(f"```{self.lang}\n")
-        print("lines:", self.lines)
         for line in self.lines:
-            print("line:", line)
             writer.write(line)
         writer.write("```\n")

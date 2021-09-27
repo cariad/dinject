@@ -1,0 +1,12 @@
+markdown_extensions:
+  - admonition
+nav:
+  - index.md
+  - cli.md
+  - attributes.md
+  - languages.md
+  - examples.md
+  - about.md
+site_name: dinject
+theme:
+  name: readthedocs

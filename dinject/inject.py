@@ -60,19 +60,20 @@ def inject(reader: IO[str], writer: IO[str]) -> None:
     skip_to_emitted_end = False
 
     for line in reader:
-        din = Instruction.parse(line)
+        if not block or block.complete:
+            din = Instruction.parse(line)
 
-        if skip_to_emitted_end:
-            if din and din.range == Range.END:
-                skip_to_emitted_end = False
-            continue
+            if skip_to_emitted_end:
+                if din and din.range == Range.END:
+                    skip_to_emitted_end = False
+                continue
 
-        if din and block:
-            execute(block=block, instruction=din, writer=writer)
-            block = None
-            if din.range == Range.START:
-                skip_to_emitted_end = True
-            continue
+            if din and block:
+                execute(block=block, instruction=din, writer=writer)
+                block = None
+                if din.range == Range.START:
+                    skip_to_emitted_end = True
+                continue
 
         writer.write(line)
 
@@ -85,9 +86,7 @@ def inject(reader: IO[str], writer: IO[str]) -> None:
                 block.lines.append(line)
                 continue
 
-        else:
-            block = is_block_start(line)
-            continue
+        block = is_block_start(line) or block
 
 
 def inject_file(path: Path) -> None:
