@@ -2,7 +2,7 @@ from typing import Dict, Optional, Type
 
 from dinject.executors.bash import BashExecutor
 from dinject.executors.python import PythonExecutor
-from dinject.types import Executor
+from dinject.types import Block, Executor
 
 executors: Dict[str, Type[Executor]] = {
     "bash": BashExecutor,
@@ -10,7 +10,9 @@ executors: Dict[str, Type[Executor]] = {
 }
 
 
-def get_executor(language: str) -> Optional[Type[Executor]]:
-    """Gets the executor for `language`."""
+def get_executor(block: Block) -> Optional[Executor]:
+    """Gets an executor for `block`."""
 
-    return executors.get(language, None)
+    if t := executors.get(block.lang, None):
+        return t(block.script)
+    return None

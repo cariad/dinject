@@ -1,57 +1,61 @@
 from dataclasses import dataclass
 from re import match
-from typing import IO, Dict
+from typing import IO, Dict, Optional
 
-from dinject.enums import Emit, Emitted, Host
+from dinject.enums import Content, Host, Range
+from dinject.exceptions import InstructionParseError
 
 
 @dataclass
 class Instruction:
-    """dinject instruction"""
+    """Document injection instruction"""
 
-    emit: Emit
-    """Type to emit."""
+    content: Content = Content.MARKDOWN
+    """Content type to inject the result as."""
 
-    emitted: Emitted
-    """Injection demarcation."""
+    range: Range = Range.NONE
+    """Injection site demarcation."""
 
-    host: Host
-    """How to execute the script."""
+    host: Host = Host.SHELL
+    """Execution host."""
 
     @staticmethod
-    def parse(text: str) -> "Instruction":
-        """Parses a plain text line as an instruction."""
+    def parse(line: str) -> Optional["Instruction"]:
+        """Parses `line` as an Instruction`."""
 
-        pairs = text.split(" ")
+        m = match("^<!--dinject(.*)-->$", line)
+        if not m:
+            return None
+
         wip: Dict[str, str] = {}
-        for pair in pairs:
-            m = match("([a-z]+)=([a-z]+)", pair)
-            if not m:
+
+        for pair in m.group(1).split(" "):
+            if not pair:
                 continue
-
-            key = m.group(1)
-            value = m.group(2)
-
-            wip[key] = value
+            if m := match("([a-z]+)=([a-z]+)", pair):
+                wip[m.group(1)] = m.group(2)
+            else:
+                raise InstructionParseError(pair, line)
 
         return Instruction(
-            emit=Emit[wip.get("emit", Emit.MARKDOWN.name).upper()],
-            emitted=Emitted[wip.get("emitted", Emitted.NOT_EMITTED.name).upper()],
+            content=Content[wip.get("as", Content.MARKDOWN.name).upper()],
+            range=Range[wip.get("range", Range.NONE.name).upper()],
             host=Host[wip.get("host", Host.SHELL.name).upper()],
         )
 
-    def write_emitted_start(self, writer: IO[str]) -> None:
-        """Writes an instruction to mark the start of an injection."""
-
-        writer.write("<!--dinject")
-        writer.write(f" emit={self.emit.name.lower()}")
-        writer.write(f" emitted={Emitted.START.name.lower()}")
-        writer.write(f" host={self.host.name.lower()}")
-        writer.write("-->\n\n")
-
-    def write_emitted_end(self, writer: IO[str]) -> None:
+    @staticmethod
+    def write_range_end(writer: IO[str]) -> None:
         """Writes an instruction to mark the end of an injection."""
 
         writer.write("<!--dinject")
-        writer.write(f" emitted={Emitted.END.name.lower()}")
+        writer.write(f" range={Range.END.name.lower()}")
+        writer.write("-->\n")
+
+    def write_range_start(self, writer: IO[str]) -> None:
+        """Writes an instruction to mark the start of an injection."""
+
+        writer.write("<!--dinject")
+        writer.write(f" as={self.content.name.lower()}")
+        writer.write(f" host={self.host.name.lower()}")
+        writer.write(f" range={Range.START.name.lower()}")
         writer.write("-->\n")
