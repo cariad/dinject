@@ -7,7 +7,7 @@ class Executor(ABC):
     Base implementation of a machine language executor.
 
     Arguments:
-        script: Script to interpret as this language and execute
+        script: Script to interpret as this language
     """
 
     def __init__(self, script: str) -> None:

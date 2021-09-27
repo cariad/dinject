@@ -54,6 +54,7 @@ setup(
     packages=[
         "dinject",
         "dinject.enums",
+        "dinject.exceptions",
         "dinject.executors",
         "dinject.types",
         "dinject.version",
@@ -61,6 +62,7 @@ setup(
     package_data={
         "dinject": ["py.typed"],
         "dinject.enums": ["py.typed"],
+        "dinject.exceptions": ["py.typed"],
         "dinject.executors": ["py.typed"],
         "dinject.types": ["py.typed"],
         "dinject.version": ["py.typed"],
