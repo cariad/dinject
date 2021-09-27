@@ -2,7 +2,8 @@ def cli_entry() -> None:
     from dinject.cli import make_response
 
     msg, code = make_response()
-    print(msg)
+    if msg:
+        print(msg)
     exit(code)
 
 
