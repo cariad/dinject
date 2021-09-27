@@ -1,0 +1,6 @@
+.coverage
+__pycache__
+coverage.xml
+dinject.egg-info
+dist
+htmlcov
