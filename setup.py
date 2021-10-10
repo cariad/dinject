@@ -17,6 +17,7 @@ classifiers = [
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
     "Topic :: Utilities",
     "Typing :: Typed",
 ]
@@ -34,7 +35,7 @@ classifiers.sort()
 
 setup(
     author="Cariad Eccleston",
-    author_email="cariad@cariad.io",
+    author_email="cariad@cariad.earth",
     classifiers=classifiers,
     description="",
     entry_points={
@@ -45,7 +46,7 @@ setup(
     include_package_data=True,
     install_requires=[
         "naughtty>=1.0.0",
-        "thtml>=1.0.1",
+        "thtml>=1.0.2",
     ],
     license="MIT",
     long_description=long_description,

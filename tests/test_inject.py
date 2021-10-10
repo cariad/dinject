@@ -17,7 +17,7 @@ from dinject.types import Block, Instruction
             """<!--dinject as=markdown host=shell range=start-->
 
 ```text
-Python 3.9.6
+Python 3.10.0
 ```
 
 <!--dinject range=end-->
@@ -52,7 +52,7 @@ two
             Instruction(content=Content.HTML),
             """<!--dinject as=html host=shell range=start-->
 
-<pre class="nohighlight thtml"><code class="thtml-code">Python 3.9.6<br /></code></pre>
+<pre class="nohighlight thtml"><code class="thtml-code">Python 3.10.0<br /></code></pre>
 
 <!--dinject range=end-->
 """,
@@ -64,7 +64,7 @@ two
             """<!--dinject as=markdown host=terminal range=start-->
 
 ```text
-Python 3.9.6
+Python 3.10.0
 ```
 
 <!--dinject range=end-->
