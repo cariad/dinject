@@ -1,4 +1,3 @@
-from importlib.resources import open_text
 from pathlib import Path
 from re import match
 from shutil import move
@@ -8,7 +7,6 @@ from typing import IO, Optional
 
 from naughtty import NaughTTY
 from thtml import Scope, write_html
-from yaml import safe_load
 
 from dinject.enums import Content, Host, Range
 from dinject.executors import get_executor
@@ -42,9 +40,7 @@ def execute(block: Block, instruction: Instruction, writer: IO[str]) -> None:
     writer.write("\n")
 
     if instruction.content == Content.HTML:
-        with open_text(__package__, "thtml-theme.yml") as t:
-            theme = safe_load(t)
-        write_html(text=content, writer=writer, scope=Scope.FRAGMENT, theme=theme)
+        write_html(text=content, writer=writer, scope=Scope.FRAGMENT, theme="plain")
         writer.write("\n")
     else:
         Block(lang="text", lines=[content]).write(writer)

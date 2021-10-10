@@ -4,9 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-ansiscape = "==1.0.0a2"  # delete
-naughtty = "==1.0.0a2"
-thtml = "==1.0.0a10"
+naughtty = "~=1.0"
+thtml = "~=1.0.1"
 
 [dev-packages]
 black = "==21.9b0"
@@ -20,7 +19,6 @@ pytest-cov = "*"
 shellcheck-py = "*"
 twine = "*"
 types-mock = "*"
-types-pyyaml = "*"
 yamllint = "*"
 
 [requires]
