@@ -1,2 +1,1 @@
-include dinject/thtml-theme.yml
 include dinject/version/VERSION

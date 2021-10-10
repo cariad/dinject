@@ -20,7 +20,7 @@ To inject the result as a HTML fragment, set `as=html`:
 
 By default, `dinject` executes the code in a subshell.
 
-To execute the code in a pseudo terminal (i.e. if you need to capture escape codes), set `host-terminal`:
+To execute the code in a pseudo terminal (i.e. if you need to capture escape codes), set `host=terminal`:
 
 ```text
 <!--dinject host=terminal-->

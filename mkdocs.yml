@@ -6,7 +6,6 @@ nav:
   - attributes.md
   - languages.md
   - examples.md
-  - about.md
 site_name: dinject
 theme:
   name: readthedocs
