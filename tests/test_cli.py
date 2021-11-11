@@ -21,7 +21,7 @@ def test_make_response__files() -> None:
 
     inject_file.assert_has_calls(
         [
-            call(Path("foo.md")),
-            call(Path("bar.md")),
+            call(path=Path("foo.md")),
+            call(path=Path("bar.md")),
         ]
     )

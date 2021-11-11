@@ -10,10 +10,16 @@ from thtml import Scope, write_html
 
 from dinject.enums import Content, Host, Range
 from dinject.executors import get_executor
+from dinject.parser import Parser
 from dinject.types import Block, Instruction
 
 
-def execute(block: Block, instruction: Instruction, writer: IO[str]) -> None:
+def execute(
+    block: Block,
+    instruction: Instruction,
+    parser: Parser,
+    writer: IO[str],
+) -> None:
     """
     Executes `block` then writes the result to `writer`, with respect to
     `instruction`.
@@ -36,7 +42,7 @@ def execute(block: Block, instruction: Instruction, writer: IO[str]) -> None:
 
     content = content.rstrip() + "\n"
 
-    instruction.write_range_start(writer)
+    parser.write_range_start(instruction, writer)
     writer.write("\n")
 
     if instruction.content == Content.HTML:
@@ -46,18 +52,19 @@ def execute(block: Block, instruction: Instruction, writer: IO[str]) -> None:
         Block(lang="text", lines=[content]).write(writer)
 
     writer.write("\n")
-    instruction.write_range_end(writer)
+    parser.write_range_end(writer)
 
 
-def inject(reader: IO[str], writer: IO[str]) -> None:
+def inject(reader: IO[str], writer: IO[str], parser: Optional[Parser] = None) -> None:
     """Reads and injects from `reader` to `writer`."""
 
     block: Optional[Block] = None
+    parser = parser or Parser()
     skip_to_emitted_end = False
 
     for line in reader:
         if not block or block.complete:
-            din = Instruction.parse(line)
+            din = parser.get_instruction(line)
 
             if skip_to_emitted_end:
                 if din and din.range == Range.END:
@@ -65,7 +72,12 @@ def inject(reader: IO[str], writer: IO[str]) -> None:
                 continue
 
             if din and block:
-                execute(block=block, instruction=din, writer=writer)
+                execute(
+                    block=block,
+                    instruction=din,
+                    parser=parser,
+                    writer=writer,
+                )
                 block = None
                 if din.range == Range.START:
                     skip_to_emitted_end = True
@@ -85,7 +97,7 @@ def inject(reader: IO[str], writer: IO[str]) -> None:
         block = is_block_start(line) or block
 
 
-def inject_file(path: Path) -> None:
+def inject_file(path: Path, parser: Optional[Parser] = None) -> None:
     """
     Executes the code blocks and injects the results into the Markdown document
     at `path`.
@@ -93,7 +105,11 @@ def inject_file(path: Path) -> None:
 
     with NamedTemporaryFile("a", delete=False) as writer:
         with open(path, "r") as reader:
-            inject(reader, writer)
+            inject(
+                parser=parser,
+                reader=reader,
+                writer=writer,
+            )
         writer.flush()
         move(writer.name, path)
 

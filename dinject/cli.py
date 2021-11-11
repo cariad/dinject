@@ -32,6 +32,6 @@ def make_response(cli_args: Optional[List[str]] = None) -> Tuple[str, int]:
         return "You must specify at least one Markdown file.", 1
 
     for file in args.files:
-        inject_file(Path(file))
+        inject_file(path=Path(file))
 
     return "", 0

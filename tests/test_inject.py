@@ -2,6 +2,7 @@ from io import StringIO
 
 from pytest import mark
 
+from dinject import Parser
 from dinject.enums import Content, Host
 from dinject.inject import execute, inject
 from dinject.types import Block, Instruction
@@ -74,7 +75,12 @@ Python 3.10.0
 )
 def test_executor(block: Block, instruction: Instruction, expect: str) -> None:
     writer = StringIO()
-    execute(block=block, instruction=instruction, writer=writer)
+    execute(
+        block=block,
+        instruction=instruction,
+        parser=Parser(),
+        writer=writer,
+    )
     assert writer.getvalue() == expect
 
 
