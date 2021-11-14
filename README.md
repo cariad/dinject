@@ -89,17 +89,16 @@ pip install dinject
 Here's a Python code block, with the result injected automatically by running `dinject README.md`:
 
 ```python
-from dinject.types import Block
+from mdcode import Block
 
-block = Block(lang="foo", lines=["line 1\n", "line 2\n"])
-print(block.script)
+block = Block(lang="foo", lines=["line 1", "line 2"])
+print(block.lines)
 ```
 
 <!--dinject as=markdown host=shell range=start-->
 
 ```text
-line 1
-line 2
+['line 1', 'line 2']
 ```
 
 <!--dinject range=end-->
