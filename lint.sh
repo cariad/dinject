@@ -1,22 +1,13 @@
 #!/bin/env bash
 set -euo pipefail
 
-find . -name "*.sh" -not -path "*/.venv/*" -exec shellcheck -o all --severity style -x {} +
+# This script is never run in CI. This is just a convenience for humans.
 
-yamllint --strict .
+./scripts/lint-shell.sh
 
-if [[ "${CI:=}" == "true" ]]; then
-  isort . --check-only --diff
-else
-  isort .
-fi
-
-if [[ "${CI:=}" == "true" ]]; then
-  black . --check --diff
-else
-  black .
-fi
-
-flake8 .
-mypy dinject
-mypy tests
+./scripts/lint-black.sh
+./scripts/lint-flake8.sh
+./scripts/lint-isort.sh
+./scripts/lint-package-types.sh
+./scripts/lint-test-types.sh
+./scripts/lint-yaml.sh
