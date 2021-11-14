@@ -45,8 +45,9 @@ setup(
     },
     include_package_data=True,
     install_requires=[
-        "naughtty>=1.0.0",
-        "thtml>=1.0.5",
+        "mdcode==1.0.0a1",
+        "naughtty~=1.0",
+        "thtml~=1.0.5",
     ],
     license="MIT",
     long_description=long_description,
