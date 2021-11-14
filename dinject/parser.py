@@ -1,6 +1,8 @@
 from re import match
 from typing import IO, Dict, Optional
 
+from mdcode.block import Fence
+
 from dinject.enums import Content, Host, Range
 from dinject.exceptions import InstructionParseError
 from dinject.types import Instruction, ParserOptions
@@ -38,9 +40,10 @@ class Parser:
         return Instruction(
             content=self._options.force_content
             or Content[wip.get("as", Content.MARKDOWN.name).upper()],
-            range=Range[wip.get("range", Range.NONE.name).upper()],
+            fence=Fence[wip.get("fence", Fence.BACKTICKS.name).upper()],
             host=self._options.force_host
             or Host[wip.get("host", Host.SHELL.name).upper()],
+            range=Range[wip.get("range", Range.NONE.name).upper()],
         )
 
     def write_range_end(self, writer: IO[str]) -> None:
@@ -57,6 +60,7 @@ class Parser:
         writer.write("<!--")
         writer.write(self._keyword)
         writer.write(f" as={instruction.content.name.lower()}")
+        writer.write(f" fence={instruction.fence.name.lower()}")
         writer.write(f" host={instruction.host.name.lower()}")
         writer.write(f" range={Range.START.name.lower()}")
         writer.write("-->\n")

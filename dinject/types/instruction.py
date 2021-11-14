@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from mdcode import Fence
+
 from dinject.enums import Content, Host, Range
 
 
@@ -10,8 +12,11 @@ class Instruction:
     content: Content = Content.MARKDOWN
     """Content type to inject the result as."""
 
-    range: Range = Range.NONE
-    """Injection site demarcation."""
+    fence: Fence = Fence.BACKTICKS
+    """Fence style for rendered Markdown."""
 
     host: Host = Host.SHELL
     """Execution host."""
+
+    range: Range = Range.NONE
+    """Injection site demarcation."""

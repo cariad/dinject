@@ -95,7 +95,7 @@ block = Block(lang="foo", lines=["line 1", "line 2"])
 print(block.lines)
 ```
 
-<!--dinject as=markdown host=shell range=start-->
+<!--dinject as=markdown fence=backticks host=shell range=start-->
 
 ```text
 ['line 1', 'line 2']
