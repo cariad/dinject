@@ -3,14 +3,22 @@ from typing import IO, Dict, Optional
 
 from dinject.enums import Content, Host, Range
 from dinject.exceptions import InstructionParseError
-from dinject.types import Instruction
+from dinject.types import Instruction, ParserOptions
 
 
 class Parser:
-    def __init__(self, keyword: str = "dinject") -> None:
+    def __init__(
+        self,
+        keyword: str = "dinject",
+        options: Optional[ParserOptions] = None,
+    ) -> None:
         self._keyword = keyword
+        self._options = options or ParserOptions()
 
-    def get_instruction(self, line: str) -> Optional["Instruction"]:
+    def get_instruction(
+        self,
+        line: str,
+    ) -> Optional["Instruction"]:
         """Parses `line` as an Instruction`."""
 
         m = match(f"^<!--{self._keyword }(.*)-->$", line)
@@ -28,9 +36,11 @@ class Parser:
                 raise InstructionParseError(pair, line)
 
         return Instruction(
-            content=Content[wip.get("as", Content.MARKDOWN.name).upper()],
+            content=self._options.force_content
+            or Content[wip.get("as", Content.MARKDOWN.name).upper()],
             range=Range[wip.get("range", Range.NONE.name).upper()],
-            host=Host[wip.get("host", Host.SHELL.name).upper()],
+            host=self._options.force_host
+            or Host[wip.get("host", Host.SHELL.name).upper()],
         )
 
     def write_range_end(self, writer: IO[str]) -> None:
