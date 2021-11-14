@@ -45,7 +45,7 @@ setup(
     },
     include_package_data=True,
     install_requires=[
-        "mdcode==1.0.0a1",
+        "mdcode==1.0.0a2",
         "naughtty~=1.0",
         "thtml~=1.0.5",
     ],
