@@ -1,11 +1,15 @@
 from io import StringIO
+from os import unlink
+from pathlib import Path
+from shutil import copy
 
+from mdcode import Block
 from pytest import mark
 
 from dinject import Parser
 from dinject.enums import Content, Host
-from dinject.inject import execute, inject
-from dinject.types import Block, Instruction
+from dinject.inject import Reader, execute, inject, inject_file, iterate_lines
+from dinject.types import Instruction
 
 
 @mark.parametrize(
@@ -87,6 +91,7 @@ def test_executor(block: Block, instruction: Instruction, expect: str) -> None:
 def test_inject() -> None:
     reader = StringIO(
         """This is an example:
+
 ```python
 print(1+2)
 ```
@@ -96,6 +101,7 @@ print(1+2)
     )
 
     expect = """This is an example:
+
 ```python
 print(1+2)
 ```
@@ -120,3 +126,23 @@ print(1+2)
     writer.seek(0)
     inject(writer, second_writer)
     assert second_writer.getvalue() == expect
+
+
+def test_inject_file() -> None:
+    tests = Path() / "tests"
+    in_file = tests / "example.md"
+    expect_file = tests / "expect.md"
+    backup_file = tests / "example.backup"
+    copy(in_file, backup_file)
+    inject_file(path=in_file)
+
+    with open(in_file, "r") as i:
+        with open(expect_file, "r") as e:
+            assert i.read() == e.read()
+    copy(backup_file, in_file)
+    unlink(backup_file)
+
+
+@mark.parametrize("reader", ["one\ntwo", StringIO("one\ntwo")])
+def test_iterate_lines(reader: Reader) -> None:
+    assert list(iterate_lines(reader)) == ["one", "two"]
