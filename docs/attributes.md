@@ -6,6 +6,16 @@ A code block will be executed only if it's followed by a `dinject` tag:
 <!--dinject-->
 ```
 
+## Fence
+
+By default, `dinject` fences code blocks with backticks.
+
+To fence the code with tildes, set `fence=tildes`:
+
+```text
+<!--dinject fence=tildes-->
+```
+
 ## Injection content type
 
 By default, `dinject` injects the result as a plain text Markdown block.

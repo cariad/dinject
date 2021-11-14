@@ -4,7 +4,7 @@
 print("Hello, world!")
 ```
 
-<!--dinject as=markdown host=shell range=start-->
+<!--dinject as=markdown fence=backticks host=shell range=start-->
 
 ```text
 Hello, world!
@@ -16,7 +16,7 @@ Hello, world!
 print("Hello, galaxy!")
 ~~~
 
-<!--dinject as=markdown host=shell range=start-->
+<!--dinject as=markdown fence=backticks host=shell range=start-->
 
 ```text
 Hello, galaxy!

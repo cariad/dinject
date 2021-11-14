@@ -13,7 +13,7 @@ print(get_version())
 !!! info
     `-1.-1.-1` means I built this page on a local development build.
 
-<!--dinject as=markdown host=shell range=start-->
+<!--dinject as=markdown fence=backticks host=shell range=start-->
 
 ```text
 -1.-1.-1
@@ -29,7 +29,7 @@ We can also get the version via Bash:
 python -m dinject --version
 ```
 
-<!--dinject as=markdown host=shell range=start-->
+<!--dinject as=markdown fence=backticks host=shell range=start-->
 
 ```text
 -1.-1.-1
@@ -49,7 +49,7 @@ pipenv --help
 
 ...then it's quite plain:
 
-<!--dinject as=markdown host=shell range=start-->
+<!--dinject as=markdown fence=backticks host=shell range=start-->
 
 ```text
 Usage: pipenv [OPTIONS] COMMAND [ARGS]...
@@ -143,7 +143,7 @@ Now, what do we get?
 pipenv --help
 ```
 
-<!--dinject as=html host=terminal range=start-->
+<!--dinject as=html fence=backticks host=terminal range=start-->
 
 <style type="text/css">.thtml { --yellow: #CC0; --red: #C00; --magenta: #C0C; --green: #0C0; } .weight-heavy { font-weight: bold; } .foreground-yellow { border-color: var(--yellow); color: var(--yellow); } .foreground-red { border-color: var(--red); color: var(--red); } .foreground-magenta { border-color: var(--magenta); color: var(--magenta); } .foreground-green { border-color: var(--green); color: var(--green); }</style><pre class="nohighlight thtml"><code class="thtml-code">Usage: <span class="weight-heavy">pipenv</span> [OPTIONS] COMMAND [ARGS]...<br /><br /><span class="weight-heavy">Options:</span><br />  --where                         Output project home information.<br />  --venv                          Output virtualenv information.<br />  --py                            Output Python interpreter information.<br />  --envs                          Output Environment Variable options.<br />  --rm                            Remove the virtualenv.<br />  --bare                          Minimal output.<br />  --completion                    Output completion (to be executed by the<br />                                <span class="foreground-yellow weight-heavy">  shell</span>).<br /><br />  --man                           Display manpage.<br />  --support                       Output diagnostic information for use in<br />                                  GitHub issues.<br /><br />  --site-packages / --no-site-packages<br />                                  Enable site-packages for the virtualenv.<br />                                  [env var: PIPENV_SITE_PACKAGES]<br /><br />  --python TEXT                   Specify which version of Python virtualenv<br />                                  should use.<br /><br />  --three / --two                 Use Python 3/2 when creating virtualenv.<br />  --clear                         Clears caches (pipenv, pip, and pip-tools).<br />                                  [env var: PIPENV_CLEAR]<br /><br />  -v, --verbose                   Verbose mode.<br />  --pypi-mirror TEXT              Specify a PyPI mirror.<br />  --version                       Show the version and exit.<br />  -h, --help                      Show this message and exit.<br /><br /><br />Usage Examples:<br />   Create a new project using Python 3.7, specifically:<br />   $ <span class="foreground-yellow">pipenv --python 3.7</span><br /><br />   Remove project virtualenv (inferred from current directory):<br />   $ <span class="foreground-yellow">pipenv --rm</span><br /><br />   Install all dependencies for a project (including dev):<br />   $ <span class="foreground-yellow">pipenv install --dev</span><br /><br />   Create a lockfile containing pre-releases:<br />   $ <span class="foreground-yellow">pipenv lock --pre</span><br /><br />   Show a graph of your installed dependencies:<br />   $ <span class="foreground-yellow">pipenv graph</span><br /><br />   Check your installed dependencies for security vulnerabilities:<br />   $ <span class="foreground-yellow">pipenv check</span><br /><br />   Install a local setup.py into your virtual environment/Pipfile:<br />   $ <span class="foreground-yellow">pipenv install -e .</span><br /><br />   Use a lower-level pip command:<br />   $ <span class="foreground-yellow">pipenv run pip freeze</span><br /><br />Commands:<br /><span class="foreground-red weight-heavy">  check</span>      Checks for PyUp Safety security vulnerabilities and against PEP<br />             508 markers provided in Pipfile.<br /><br /><span class="foreground-red weight-heavy">  clean</span>      Uninstalls all packages not specified in Pipfile.lock.<br /><span class="foreground-red weight-heavy">  graph</span>      Displays currently-installed dependency graph information.<br /><span class="foreground-magenta weight-heavy">  install</span>    Installs provided packages and adds them to Pipfile, or (if no<br />             packages are given), installs all packages from Pipfile.<br /><br /><span class="foreground-green weight-heavy">  lock</span>       Generates Pipfile.lock.<br /><span class="foreground-red weight-heavy">  open</span>       View a given module in your editor.<br /><span class="foreground-yellow weight-heavy">  run</span>        Spawns a command installed into the virtualenv.<br /><span class="foreground-yellow weight-heavy">  scripts</span>    Lists scripts in current environment config.<br /><span class="foreground-yellow weight-heavy">  shell</span>      Spawns a shell within the virtualenv.<br /><span class="foreground-green weight-heavy">  sync</span>       Installs all packages specified in Pipfile.lock.<br /><span class="foreground-magenta weight-heavy">  uninstall</span>  Uninstalls a provided package and removes it from Pipfile.<br /><span class="foreground-green weight-heavy">  update</span>     Runs lock, then sync.<br /><br /></code></pre>
 

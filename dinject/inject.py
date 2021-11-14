@@ -56,7 +56,8 @@ def execute(
         )
         writer.write("\n")
     else:
-        Block(lang="text", lines=content.split("\n")).render(writer)
+        block = Block(lang="text", lines=content.split("\n"))
+        block.render(writer, fence=instruction.fence)
 
     writer.write("\n")
     parser.write_range_end(writer)

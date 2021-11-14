@@ -3,7 +3,7 @@ from os import unlink
 from pathlib import Path
 from shutil import copy
 
-from mdcode import Block
+from mdcode import Block, Fence
 from pytest import mark
 
 from dinject import Parser
@@ -19,7 +19,7 @@ from dinject.types import Instruction
         (
             Block(lang="bash", lines=["python --version"]),
             Instruction(),
-            """<!--dinject as=markdown host=shell range=start-->
+            """<!--dinject as=markdown fence=backticks host=shell range=start-->
 
 ```text
 Python 3.10.0
@@ -32,7 +32,7 @@ Python 3.10.0
         (
             Block(lang="python", lines=["print(1+2)"]),
             Instruction(),
-            """<!--dinject as=markdown host=shell range=start-->
+            """<!--dinject as=markdown fence=backticks host=shell range=start-->
 
 ```text
 3
@@ -55,7 +55,7 @@ two
         (
             Block(lang="bash", lines=["python --version"]),
             Instruction(content=Content.HTML),
-            """<!--dinject as=html host=shell range=start-->
+            """<!--dinject as=html fence=backticks host=shell range=start-->
 
 <pre class="nohighlight thtml"><code class="thtml-code">Python 3.10.0<br /></code></pre>
 
@@ -66,11 +66,24 @@ two
         (
             Block(lang="bash", lines=["python --version"]),
             Instruction(host=Host.TERMINAL),
-            """<!--dinject as=markdown host=terminal range=start-->
+            """<!--dinject as=markdown fence=backticks host=terminal range=start-->
 
 ```text
 Python 3.10.0
 ```
+
+<!--dinject range=end-->
+""",
+        ),
+        # With tildes:
+        (
+            Block(lang="bash", lines=["python --version"]),
+            Instruction(fence=Fence.TILDES),
+            """<!--dinject as=markdown fence=tildes host=shell range=start-->
+
+~~~text
+Python 3.10.0
+~~~
 
 <!--dinject range=end-->
 """,
@@ -106,7 +119,7 @@ print(1+2)
 print(1+2)
 ```
 
-<!--dinject as=markdown host=shell range=start-->
+<!--dinject as=markdown fence=backticks host=shell range=start-->
 
 ```text
 3

@@ -1,5 +1,6 @@
 from io import StringIO
 
+from mdcode import Fence
 from pytest import mark, raises
 
 from dinject import Parser
@@ -29,10 +30,11 @@ from dinject.types.instruction import Instruction
             ),
         ),
         (
-            "<!--dinject range=start-->",
+            "<!--dinject fence=tildes-->",
             Instruction(
                 content=Content.MARKDOWN,
-                range=Range.START,
+                fence=Fence.TILDES,
+                range=Range.NONE,
                 host=Host.SHELL,
             ),
         ),
@@ -42,6 +44,14 @@ from dinject.types.instruction import Instruction
                 content=Content.MARKDOWN,
                 range=Range.NONE,
                 host=Host.TERMINAL,
+            ),
+        ),
+        (
+            "<!--dinject range=start-->",
+            Instruction(
+                content=Content.MARKDOWN,
+                range=Range.START,
+                host=Host.SHELL,
             ),
         ),
     ],
@@ -87,7 +97,10 @@ def test_write_range_start() -> None:
     )
 
     Parser().write_range_start(instruction=instruction, writer=writer)
-    assert writer.getvalue() == "<!--dinject as=markdown host=shell range=start-->\n"
+    assert (
+        writer.getvalue()
+        == "<!--dinject as=markdown fence=backticks host=shell range=start-->\n"
+    )
 
 
 def test_write_range_start__custom_keyword() -> None:
@@ -100,4 +113,7 @@ def test_write_range_start__custom_keyword() -> None:
     )
 
     Parser(keyword="foo").write_range_start(instruction=instruction, writer=writer)
-    assert writer.getvalue() == "<!--foo as=markdown host=shell range=start-->\n"
+    assert (
+        writer.getvalue()
+        == "<!--foo as=markdown fence=backticks host=shell range=start-->\n"
+    )
