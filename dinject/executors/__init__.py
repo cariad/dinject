@@ -1,7 +1,5 @@
 from typing import Dict, Optional, Type
 
-from mdcode import Block
-
 from dinject.executors.bash import BashExecutor
 from dinject.executors.python import PythonExecutor
 from dinject.types import Executor
@@ -12,9 +10,18 @@ executors: Dict[str, Type[Executor]] = {
 }
 
 
-def get_executor(block: Block) -> Optional[Executor]:
-    """Gets an executor for `block`."""
+def make_executor(language: Optional[str], script: str) -> Optional[Executor]:
+    """
+    Creates a `language` executor for `script`.
 
-    if t := executors.get(block.lang or "text", None):
-        return t("\n".join(block.lines))
+    Arguments:
+        language: Language.
+        script:   Script.
+
+    Returns:
+        Executor if one was found, otherwise `None`.
+    """
+
+    if t := executors.get(language or "text", None):
+        return t(script)
     return None
