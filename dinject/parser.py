@@ -1,7 +1,7 @@
 from re import match
 from typing import IO, Dict, Optional
 
-from mdcode.block import Fence
+from comprehemd import Fence
 
 from dinject.enums import Content, Host, Range
 from dinject.exceptions import InstructionParseError
