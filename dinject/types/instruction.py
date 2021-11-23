@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mdcode import Fence
+from comprehemd import Fence
 
 from dinject.enums import Content, Host, Range
 
