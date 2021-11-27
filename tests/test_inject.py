@@ -1,15 +1,21 @@
 from io import StringIO
+from logging import basicConfig, getLogger
 from os import unlink
 from pathlib import Path
 from shutil import copy
 
-from mdcode import Block, Fence
+from comprehemd import CodeBlock, Fence
 from pytest import mark
 
 from dinject import Parser
 from dinject.enums import Content, Host
-from dinject.inject import Reader, execute, inject, inject_file, iterate_lines
+from dinject.execute import execute
+from dinject.inject import Reader, inject, inject_file, iterate_lines
 from dinject.types import Instruction
+
+basicConfig(level="DEBUG")
+getLogger("comprehemd").setLevel("DEBUG")
+getLogger("dinject").setLevel("DEBUG")
 
 
 @mark.parametrize(
@@ -17,7 +23,7 @@ from dinject.types import Instruction
     [
         # Bash executor:
         (
-            Block(lang="bash", lines=["python --version"]),
+            CodeBlock("python --version\n", language="bash"),
             Instruction(),
             """<!--dinject as=markdown fence=backticks host=shell range=start-->
 
@@ -30,7 +36,7 @@ Python 3.10.0
         ),
         # Python executor:
         (
-            Block(lang="python", lines=["print(1+2)"]),
+            CodeBlock("print(1+2)\n", language="python"),
             Instruction(),
             """<!--dinject as=markdown fence=backticks host=shell range=start-->
 
@@ -43,7 +49,7 @@ Python 3.10.0
         ),
         # Text pass-through:
         (
-            Block(lang="text", lines=["one\n", "two\n"]),
+            CodeBlock("one\ntwo\n", language="text"),
             Instruction(),
             """```text
 one
@@ -53,7 +59,7 @@ two
         ),
         # As HTML:
         (
-            Block(lang="bash", lines=["python --version"]),
+            CodeBlock("python --version\n", language="bash"),
             Instruction(content=Content.HTML),
             """<!--dinject as=html fence=backticks host=shell range=start-->
 
@@ -64,7 +70,7 @@ two
         ),
         # Via terminal:
         (
-            Block(lang="bash", lines=["python --version"]),
+            CodeBlock("python --version\n", language="bash"),
             Instruction(host=Host.TERMINAL),
             """<!--dinject as=markdown fence=backticks host=terminal range=start-->
 
@@ -77,7 +83,7 @@ Python 3.10.0
         ),
         # With tildes:
         (
-            Block(lang="bash", lines=["python --version"]),
+            CodeBlock("python --version\n", language="bash"),
             Instruction(fence=Fence.TILDES),
             """<!--dinject as=markdown fence=tildes host=shell range=start-->
 
@@ -90,7 +96,7 @@ Python 3.10.0
         ),
     ],
 )
-def test_executor(block: Block, instruction: Instruction, expect: str) -> None:
+def test_executor(block: CodeBlock, instruction: Instruction, expect: str) -> None:
     writer = StringIO()
     execute(
         block=block,
@@ -139,6 +145,36 @@ print(1+2)
     writer.seek(0)
     inject(writer, second_writer)
     assert second_writer.getvalue() == expect
+
+
+def test_inject__string() -> None:
+    reader = """This is an example:
+
+```python
+print(1+2)
+```
+
+<!--dinject-->
+"""
+
+    expect = """This is an example:
+
+```python
+print(1+2)
+```
+
+<!--dinject as=markdown fence=backticks host=shell range=start-->
+
+```text
+3
+```
+
+<!--dinject range=end-->
+"""
+
+    writer = StringIO()
+    inject(reader, writer)
+    assert writer.getvalue() == expect
 
 
 def test_inject_file() -> None:

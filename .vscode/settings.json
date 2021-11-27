@@ -4,6 +4,8 @@
     "comprehemd",
     "dinject",
     "epilog",
+    "getvalue",
+    "Gruber",
     "mypy",
     "naughtty",
     "thtml"

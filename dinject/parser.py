@@ -17,10 +17,7 @@ class Parser:
         self._keyword = keyword
         self._options = options or ParserOptions()
 
-    def get_instruction(
-        self,
-        line: str,
-    ) -> Optional["Instruction"]:
+    def get_instruction(self, line: str) -> Optional["Instruction"]:
         """Parses `line` as an Instruction`."""
 
         m = match(f"^<!--{self._keyword }(.*)-->$", line)

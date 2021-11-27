@@ -1,0 +1,447 @@
+<!doctype html>
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dinject</title>
+    <meta name="author" content="Cariad Eccleston" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥪</text></svg>" />
+    <style>
+body {
+  /* Thanks! https://systemfontstack.com */
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+}
+
+body {
+  --accent: #f1fa8c; /* Copied from Dracula */
+  --paragraph-spacing: 2rem;
+  --paragraph-spacing-smaller: 0.6rem;
+
+  --regular-margin: 43rem;
+  --grey: #ccc;
+
+  --code-padding: 2rem;
+
+  background-color: var(--white);
+  color: var(--black);
+
+  margin-top: 2rem;
+  margin-bottom: 8rem;
+
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+  font-size: 1.2rem;
+}
+
+blockquote,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol,
+p,
+ul {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--regular-margin)
+}
+
+article > .highlight,
+article > .thtml {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: calc(var(--regular-margin) - (var(--code-padding)*2));
+}
+
+table {
+  margin-top: var(--paragraph-spacing);
+  margin-left: auto;
+  margin-right: auto;
+  width: var(--regular-margin);
+  max-width: var(--regular-margin);
+}
+
+table td,
+table th {
+  padding-left: 0;
+  padding-right: 1rem;
+  padding-top: 0.4rem;
+}
+
+table td:last-child,
+table th:last-child {
+  padding-right: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+ol,
+ul {
+  margin-top: var(--paragraph-spacing-smaller);
+  margin-bottom: 0;
+
+  max-width: calc(var(--regular-margin) - 2rem);
+}
+
+li {
+  margin-bottom: var(--paragraph-spacing-smaller);
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h1, h2, h3, h4, h5, h6, th {
+  border-bottom: 1px solid var(--grey);
+  padding-bottom: 0.3rem;
+}
+
+nav.toc {
+  font-size: 0.8em;
+  letter-spacing: 0.02rem;
+}
+
+nav.toc ol {
+  padding-left: 1rem;
+}
+
+nav.toc li ol {
+  margin-top: 0.1rem;
+}
+
+nav.toc li {
+  list-style: none;
+  margin-bottom: 0.1rem;
+}
+
+p, li, pre {
+  line-height: 1.6;
+}
+
+.thtml {
+  overflow-x: auto;
+}
+
+blockquote {
+  font-style: italic;
+  border-left: 0.6rem solid var(--red);
+  padding-left: 1rem;
+}
+
+a > code,
+h2 > code,
+h3 > code,
+h4 > code,
+h5 > code,
+h6 > code,
+li > code,
+p > code {
+  background: var(--accent);
+  border-radius: 0.3em;
+
+  letter-spacing: 0.04em;
+
+  padding-top: 0.4em;
+  padding-bottom: 0.2em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+li > code,
+p > code {
+  font-size: 0.85em;
+}
+
+sup {
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+
+p {
+  margin-bottom: 0;
+  margin-top: var(--paragraph-spacing);
+}
+
+code, pre {
+  font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+}
+
+.highlight, .thtml {
+  font-size: 0.8em;
+
+  /* background-color: #1B2A41; */
+  /* color: #fff; */
+
+  padding: var(--code-padding);
+  border-radius: 0.3em;
+
+  margin-top: var(--paragraph-spacing-smaller);
+  margin-bottom: var(--paragraph-spacing);
+
+  box-shadow: 0 0 0.6rem var(--grey)
+}
+
+
+.highlight > pre {
+  overflow-x: auto;
+  margin: 0;
+  padding: 0;
+}
+
+body > footer {
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+
+nav > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav > ul > li {
+  display: inline;
+  margin-right: 1rem;
+}
+
+h2+h3,
+h3+h4,
+h4+h5,
+h5+h6 {
+  margin-top: 0;
+}
+
+h2, h3, h4, h5, h6 {
+  margin-bottom: var(--paragraph-spacing);
+  margin-top: calc(var(--paragraph-spacing) * 2);
+}
+
+/* Dracula Theme v1.2.5
+ *
+ * https://github.com/dracula/pygments
+ *
+ * Copyright 2016, All rights reserved
+ *
+ * Code licensed under the MIT license
+ * http://zenorocha.mit-license.org
+ *
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2016 Dracula Theme
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * @author Rob G <wowmotty@gmail.com>
+ * @author Chris Bracco <chris@cbracco.me>
+ * @author Zeno Rocha <hi@zenorocha.com>
+ */
+
+ .highlight .hll { background-color: #f1fa8c }
+ .highlight  { background: #282a36; color: #f8f8f2 }
+ .highlight .c { color: #6272a4 } /* Comment */
+ .highlight .err { color: #f8f8f2 } /* Error */
+ .highlight .g { color: #f8f8f2 } /* Generic */
+ .highlight .k { color: #ff79c6 } /* Keyword */
+ .highlight .l { color: #f8f8f2 } /* Literal */
+ .highlight .n { color: #f8f8f2 } /* Name */
+ .highlight .o { color: #ff79c6 } /* Operator */
+ .highlight .x { color: #f8f8f2 } /* Other */
+ .highlight .p { color: #f8f8f2 } /* Punctuation */
+ .highlight .ch { color: #6272a4 } /* Comment.Hashbang */
+ .highlight .cm { color: #6272a4 } /* Comment.Multiline */
+ .highlight .cp { color: #ff79c6 } /* Comment.Preproc */
+ .highlight .cpf { color: #6272a4 } /* Comment.PreprocFile */
+ .highlight .c1 { color: #6272a4 } /* Comment.Single */
+ .highlight .cs { color: #6272a4 } /* Comment.Special */
+ .highlight .gd { color: #8b080b } /* Generic.Deleted */
+ .highlight .ge { color: #f8f8f2; text-decoration: underline } /* Generic.Emph */
+ .highlight .gr { color: #f8f8f2 } /* Generic.Error */
+ .highlight .gh { color: #f8f8f2; font-weight: bold } /* Generic.Heading */
+ .highlight .gi { color: #f8f8f2; font-weight: bold } /* Generic.Inserted */
+ .highlight .go { color: #44475a } /* Generic.Output */
+ .highlight .gp { color: #f8f8f2 } /* Generic.Prompt */
+ .highlight .gs { color: #f8f8f2 } /* Generic.Strong */
+ .highlight .gu { color: #f8f8f2; font-weight: bold } /* Generic.Subheading */
+ .highlight .gt { color: #f8f8f2 } /* Generic.Traceback */
+ .highlight .kc { color: #ff79c6 } /* Keyword.Constant */
+ .highlight .kd { color: #8be9fd; font-style: italic } /* Keyword.Declaration */
+ .highlight .kn { color: #ff79c6 } /* Keyword.Namespace */
+ .highlight .kp { color: #ff79c6 } /* Keyword.Pseudo */
+ .highlight .kr { color: #ff79c6 } /* Keyword.Reserved */
+ .highlight .kt { color: #8be9fd } /* Keyword.Type */
+ .highlight .ld { color: #f8f8f2 } /* Literal.Date */
+ .highlight .m { color: #bd93f9 } /* Literal.Number */
+ .highlight .s { color: #f1fa8c } /* Literal.String */
+ .highlight .na { color: #50fa7b } /* Name.Attribute */
+ .highlight .nb { color: #8be9fd; font-style: italic } /* Name.Builtin */
+ .highlight .nc { color: #50fa7b } /* Name.Class */
+ .highlight .no { color: #f8f8f2 } /* Name.Constant */
+ .highlight .nd { color: #f8f8f2 } /* Name.Decorator */
+ .highlight .ni { color: #f8f8f2 } /* Name.Entity */
+ .highlight .ne { color: #f8f8f2 } /* Name.Exception */
+ .highlight .nf { color: #50fa7b } /* Name.Function */
+ .highlight .nl { color: #8be9fd; font-style: italic } /* Name.Label */
+ .highlight .nn { color: #f8f8f2 } /* Name.Namespace */
+ .highlight .nx { color: #f8f8f2 } /* Name.Other */
+ .highlight .py { color: #f8f8f2 } /* Name.Property */
+ .highlight .nt { color: #ff79c6 } /* Name.Tag */
+ .highlight .nv { color: #8be9fd; font-style: italic } /* Name.Variable */
+ .highlight .ow { color: #ff79c6 } /* Operator.Word */
+ .highlight .w { color: #f8f8f2 } /* Text.Whitespace */
+ .highlight .mb { color: #bd93f9 } /* Literal.Number.Bin */
+ .highlight .mf { color: #bd93f9 } /* Literal.Number.Float */
+ .highlight .mh { color: #bd93f9 } /* Literal.Number.Hex */
+ .highlight .mi { color: #bd93f9 } /* Literal.Number.Integer */
+ .highlight .mo { color: #bd93f9 } /* Literal.Number.Oct */
+ .highlight .sa { color: #f1fa8c } /* Literal.String.Affix */
+ .highlight .sb { color: #f1fa8c } /* Literal.String.Backtick */
+ .highlight .sc { color: #f1fa8c } /* Literal.String.Char */
+ .highlight .dl { color: #f1fa8c } /* Literal.String.Delimiter */
+ .highlight .sd { color: #f1fa8c } /* Literal.String.Doc */
+ .highlight .s2 { color: #f1fa8c } /* Literal.String.Double */
+ .highlight .se { color: #f1fa8c } /* Literal.String.Escape */
+ .highlight .sh { color: #f1fa8c } /* Literal.String.Heredoc */
+ .highlight .si { color: #f1fa8c } /* Literal.String.Interpol */
+ .highlight .sx { color: #f1fa8c } /* Literal.String.Other */
+ .highlight .sr { color: #f1fa8c } /* Literal.String.Regex */
+ .highlight .s1 { color: #f1fa8c } /* Literal.String.Single */
+ .highlight .ss { color: #f1fa8c } /* Literal.String.Symbol */
+ .highlight .bp { color: #f8f8f2; font-style: italic } /* Name.Builtin.Pseudo */
+ .highlight .fm { color: #50fa7b } /* Name.Function.Magic */
+ .highlight .vc { color: #8be9fd; font-style: italic } /* Name.Variable.Class */
+ .highlight .vg { color: #8be9fd; font-style: italic } /* Name.Variable.Global */
+ .highlight .vi { color: #8be9fd; font-style: italic } /* Name.Variable.Instance */
+ .highlight .vm { color: #8be9fd; font-style: italic } /* Name.Variable.Magic */
+ .highlight .il { color: #bd93f9 } /* Literal.Number.Integer.Long */
+</style>
+  </head>
+
+  <body>
+    <article>
+        <h1>🥪 Dinject</h1>
+<p><strong>Dinject</strong> is a Python package and CLI tool for executing code blocks in Markdown documents then injecting the results.</p>
+<p><nav class="toc"><ol><li><a href="#example">Example</a></li><li><a href="#installation">Installation</a></li><li><a href="#injection-attributes">Injection attributes</a></li><li><a href="#command-line-usage">Command line usage</a></li><li><a href="#python-usage">Python usage</a><ol><li><a href="#injection">Injection</a></li><li><a href="#custom-parsers">Custom parsers</a></li></ol></li><li><a href="#languages">Languages</a><ol><li><a href="#bash">Bash</a></li><li><a href="#python">Python</a></li><li><a href="#text">Text</a></li></ol></li><li><a href="#project">Project</a><ol><li><a href="#contributing">Contributing</a></li><li><a href="#licence">Licence</a></li><li><a href="#author">Author</a></li><li><a href="#acknowledgements">Acknowledgements</a></li></ol></li></ol></nav></p>
+<h2>Example<a id="example"></a></h2>
+<p>This example creates a Markdown document with a code block and an injection site, then performs the injection:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dinject</span> <span class="kn">import</span> <span class="n">inject</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+
+<span class="n">markdown</span> <span class="o">=</span> <span class="s2">"""This is a demonstration of Dinject.</span>
+
+<span class="s2">```bash</span>
+<span class="s2">python --version</span>
+<span class="s2">```</span>
+
+<span class="s2">&lt;!--dinject--&gt;</span>
+<span class="s2">"""</span>
+
+<span class="n">writer</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+
+<span class="n">inject</span><span class="p">(</span><span class="n">markdown</span><span class="p">,</span> <span class="n">writer</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">writer</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+</pre></div>
+
+<p>In the output, the injection site has been replaced by the execution result:</p>
+
+
+<pre class="nohighlight thtml"><code class="thtml-code">This is a demonstration of Dinject.<br /><br />```bash<br />python --version<br />```<br /><br />&lt;!--dinject as=markdown fence=backticks host=shell range=start--&gt;<br /><br />```text<br />Python 3.10.0<br />```<br /><br />&lt;!--dinject range=end--&gt;<br /></code></pre>
+
+
+
+<p><strong>Fun fact!</strong> The documentation you're reading right now was generated by <a href="https://github.com/cariad/edition">Edition</a> which uses Dinject under the hood. The example output above was generated and injected by Dinject executing the code block preceding it.</p>
+<h2>Installation<a id="installation"></a></h2>
+<p>Dinject requires Python 3.8 or later.</p>
+<p>Install Dinject via pip:</p>
+<div class="highlight"><pre><span></span>pip install dinject
+</pre></div>
+
+<h2>Injection attributes<a id="injection-attributes"></a></h2>
+<p>The most basic injection site is simply:</p>
+<div class="highlight"><pre><span></span>&lt;!--dinject--&gt;
+</pre></div>
+
+<p>To fence the injection with tildes instead of backticks (for example, if you're embedding Markdown within Markdown) then set the <code>fence</code> attribute:</p>
+<div class="highlight"><pre><span></span>&lt;!--dinject fence=tildes--&gt;
+</pre></div>
+
+<p>To inject the result as HTML instead of Markdown (for example, to render the colours and other styles in the command's output) then set the <code>as</code> attribute:</p>
+<div class="highlight"><pre><span></span>&lt;!--dinject as=html--&gt;
+</pre></div>
+
+<p>To have the code executed in a pseudo terminal rather than a sub shell (for example, if the command emits formatted output only in non-interactive shells) then set the <code>host</code> attribute:</p>
+<div class="highlight"><pre><span></span>&lt;!--dinject host=terminal--&gt;
+</pre></div>
+
+<h2>Command line usage<a id="command-line-usage"></a></h2>
+<p>Run <code>dinject</code> and pass paths to Markdown documents to update:</p>
+<div class="highlight"><pre><span></span>dinject README.md docs/example.md
+</pre></div>
+
+<h2>Python usage<a id="python-usage"></a></h2>
+<h3>Injection<a id="injection"></a></h3>
+<p>The <code>inject()</code> function takes:</p>
+<ul>
+<li>A reader, which can be a text stream or a string.</li>
+<li>A text stream writer.</li>
+<li>An optional parser.</li>
+</ul>
+<h3>Custom parsers<a id="custom-parsers"></a></h3>
+<p>A customised <code>Parser</code> can be passed into <code>inject()</code> to tweak some runtime configuration.</p>
+<p>The <code>keyword</code> describes the injection site keyword. This is "dinject" by default. If you wanted to injection sites to be marked up by, say, <code>&lt;!--foo--&gt;</code> then set the keyword to "foo".</p>
+<h2>Languages<a id="languages"></a></h2>
+<h3>Bash<a id="bash"></a></h3>
+<p>Dinject executes Bash code blocks via <code>/usr/bin/env bash -c CODE</code>.</p>
+<p>This will require a Linux-like operating system or operating system layer.</p>
+<h3>Python<a id="python"></a></h3>
+<p>Dinject executes Bash code blocks via <code>python -c CODE</code>.</p>
+<p>The first Python interpreter available in your path will be used; this includes your virtual environment if you're in one. Dinject will rely on that interpreter/virtual environment to perform the imports.</p>
+<h3>Text<a id="text"></a></h3>
+<p>Text blocks will be passed-through unchanged.</p>
+<h2>Project<a id="project"></a></h2>
+<h3>Contributing<a id="contributing"></a></h3>
+<p>To contribute a bug report, enhancement or feature request, please raise an issue at <a href="https://github.com/cariad/dinject/issues">github.com/cariad/dinject/issues</a>.</p>
+<p>If you want to contribute a code change, please raise an issue first so we can chat about the direction you want to take.</p>
+<h3>Licence<a id="licence"></a></h3>
+<p>Dinject is released at <a href="https://github.com/cariad/dinject">github.com/cariad/dinject</a> under the MIT Licence.</p>
+<p>See <a href="https://github.com/cariad/dinject/blob/main/LICENSE">LICENSE</a> for more information.</p>
+<h3>Author<a id="author"></a></h3>
+<p>Hello! 👋 I'm <strong>Cariad Eccleston</strong> and I'm a freelance DevOps and backend engineer. My contact details are available on my personal wiki at <a href="https://cariad.earth">cariad.earth</a>.</p>
+<p>Please consider supporting my open source projects by <a href="https://github.com/sponsors/cariad/">sponsoring me on GitHub</a>.</p>
+<h3>Acknowledgements<a id="acknowledgements"></a></h3>
+<ul>
+<li>Epic ❤️ to John Gruber for developing <a href="https://daringfireball.net/projects/markdown/">the original Markdown specification</a>.</li>
+<li>Markdown parsing by <a href="https://github.com/cariad/comprehemd">Comprehemd</a>.</li>
+<li>Pseudo terminal support by <a href="https://github.com/cariad/naughtty">NaughTTY</a>.</li>
+<li>HTML conversion of command output by <a href="https://github.com/cariad/thtml">thtml</a>.</li>
+<li>This documentation was pressed by <a href="https://github.com/cariad/edition">Edition</a>.</li>
+</ul>
+    </article>
+  </body>
+
+</html>
