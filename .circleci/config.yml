@@ -144,7 +144,7 @@ jobs:
       - restore_cache:
           keys:
             - pipenv-{{ checksum "Pipfile.lock" }}
-      - run: pipenv run ./build.sh
+      - run: pipenv run build
       - run: pip install dist/*
       - run: ./scripts/test-cli.sh
       - run: if [[ -z "${CIRCLE_TAG}" ]]; then circleci-agent step halt; fi
