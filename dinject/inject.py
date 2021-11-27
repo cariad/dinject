@@ -1,66 +1,17 @@
+from io import StringIO
+from logging import getLogger
 from pathlib import Path
 from shutil import move
-from subprocess import run
 from tempfile import NamedTemporaryFile
 from typing import IO, Iterable, Optional, Union
 
-from mdcode import Block, LineReader
-from naughtty import NaughTTY
-from thtml import Scope, write_html
+from comprehemd import CodeBlock, MarkdownParser
 
-from dinject.enums import Content, Host, Range
-from dinject.executors import get_executor
+from dinject.enums.range import Range
+from dinject.execute import execute
 from dinject.parser import Parser
-from dinject.types import Instruction
 
 Reader = Union[str, IO[str]]
-
-
-def execute(
-    block: Block,
-    instruction: Instruction,
-    parser: Parser,
-    writer: IO[str],
-) -> None:
-    """
-    Executes `block` then writes the result to `writer`, with respect to
-    `instruction`.
-    """
-
-    executor = get_executor(block)
-
-    if not executor:
-        # We don't support this language, so pass through.
-        block.render(writer)
-        return
-
-    if instruction.host == Host.TERMINAL:
-        n = NaughTTY(command=executor.arguments)
-        n.execute()
-        content = n.output
-    else:
-        process = run(executor.arguments, capture_output=True)
-        content = process.stdout.decode("UTF-8")
-
-    content = content.rstrip()
-
-    parser.write_range_start(instruction, writer)
-    writer.write("\n")
-
-    if instruction.content == Content.HTML:
-        write_html(
-            text=content + "\n",
-            writer=writer,
-            scope=Scope.FRAGMENT,
-            theme="plain",
-        )
-        writer.write("\n")
-    else:
-        block = Block(lang="text", lines=content.split("\n"))
-        block.render(writer, fence=instruction.fence)
-
-    writer.write("\n")
-    parser.write_range_end(writer)
 
 
 def inject(
@@ -70,33 +21,42 @@ def inject(
 ) -> None:
     """Reads and injects from `reader` to `writer`."""
 
-    line_reader = LineReader()
+    logger = getLogger("dinject")
+    logger.debug("Starting injection: %s", reader)
+
+    if isinstance(reader, str):
+        reader = StringIO(reader)
+
+    is_skipping_range = False
+    last_code: Optional[CodeBlock] = None
     parser = parser or Parser()
-    skip_to_emitted_end = False
 
-    for line in iterate_lines(reader):
-        if not skip_to_emitted_end:
-            line_reader.read(line)
+    for block in MarkdownParser().read(reader):
+        logger.debug("Parsed block: %s", block)
 
-        din = parser.get_instruction(line)
+        din = parser.get_instruction(block.source)
 
-        if skip_to_emitted_end:
+        if is_skipping_range:
             if din and din.range == Range.END:
-                skip_to_emitted_end = False
+                is_skipping_range = False
             continue
 
-        if din and line_reader.complete:
+        if din and last_code:
             execute(
-                block=line_reader.complete,
+                block=last_code,
                 instruction=din,
                 parser=parser,
                 writer=writer,
             )
+            last_code = None
             if din.range == Range.START:
-                skip_to_emitted_end = True
+                is_skipping_range = True
             continue
 
-        writer.write(line)
+        if isinstance(block, CodeBlock):
+            last_code = block
+
+        writer.write(block.source)
         writer.write("\n")
 
 

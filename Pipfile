@@ -3,16 +3,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
-[packages]
-mdcode = "==1.0.0a3"
-naughtty = "~=1.0"
-thtml = "~=1.0.5"
-
 [dev-packages]
 black = "==21.9b0"
+edition = "==1.0.0a10"
 flake8 = "*"
 isort = "*"
-mkdocs = "*"
 mock = "*"
 mypy = "*"
 pytest = "*"
@@ -22,5 +17,15 @@ twine = "*"
 types-mock = "*"
 yamllint = "*"
 
+[packages]
+comprehemd = "==1.0.0a2"
+naughtty = "~=1.0"
+thtml = "~=1.0.5"
+
 [requires]
 python_version = "3.10"
+
+[scripts]
+build = "./scripts/build.sh"
+lint = "./scripts/lint.sh"
+test = "./scripts/test.sh"

@@ -37,7 +37,7 @@ setup(
     author="Cariad Eccleston",
     author_email="cariad@cariad.earth",
     classifiers=classifiers,
-    description="",
+    description="Executes and injects code in Markdown documents",
     entry_points={
         "console_scripts": [
             "dinject=dinject.__main__:cli_entry",
@@ -45,7 +45,7 @@ setup(
     },
     include_package_data=True,
     install_requires=[
-        "mdcode==1.0.0a3",
+        "comprehemd==1.0.0a2",
         "naughtty~=1.0",
         "thtml~=1.0.5",
     ],
