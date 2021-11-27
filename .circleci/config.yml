@@ -130,7 +130,7 @@ jobs:
       - restore_cache:
           keys:
             - pipenv-{{ checksum "Pipfile.lock" }}
-      - run: pipenv run ./test.sh
+      - run: pipenv run test
       - codecov/upload:
           file: coverage.xml
 
@@ -146,7 +146,7 @@ jobs:
             - pipenv-{{ checksum "Pipfile.lock" }}
       - run: pipenv run ./build.sh
       - run: pip install dist/*
-      - run: ./test-cli.sh
+      - run: ./scripts/test-cli.sh
       - run: if [[ -z "${CIRCLE_TAG}" ]]; then circleci-agent step halt; fi
       - run: pipenv run twine upload dist/*
 
