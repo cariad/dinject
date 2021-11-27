@@ -30,22 +30,23 @@ print(writer.getvalue())
 
 In the output, the injection site has been replaced by the execution result:
 
-<!--edition-exec as=markdown fence=backticks host=shell range=start-->
+<!--edition-exec as=markdown fence=tildes host=shell range=start-->
 
-```text
+~~~text
 This is a demonstration of Dinject.
 
 ```bash
 python --version
 ```
 
-```text
-This is a demonstration of Dinject.
+<!--dinject as=markdown fence=backticks host=shell range=start-->
 
-```bash
-python --version
+```text
+Python 3.10.0
 ```
-```
+
+<!--dinject range=end-->
+~~~
 
 <!--edition-exec range=end-->
 

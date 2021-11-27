@@ -8,5 +8,4 @@ if [[ "${CI:=}" == "true" ]]; then
 else
   python -m edition docs/source.md README.md       --press markdown
   python -m edition docs/source.md docs/index.html --press html
-  python -m dinject README.md
 fi
