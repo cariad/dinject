@@ -2,7 +2,22 @@
 
 **Dinject** is a Python package and CLI tool for executing code blocks in Markdown documents then injecting the results.
 
-<edition value="toc" />
+- [Example](#example)
+- [Installation](#installation)
+- [Injection attributes](#injection-attributes)
+- [Command line usage](#command-line-usage)
+- [Python usage](#python-usage)
+  - [Injection](#injection)
+  - [Custom parsers](#custom-parsers)
+- [Languages](#languages)
+  - [Bash](#bash)
+  - [Python](#python)
+  - [Text](#text)
+- [Project](#project)
+  - [Contributing](#contributing)
+  - [Licence](#licence)
+  - [Author](#author)
+  - [Acknowledgements](#acknowledgements)
 
 ## Example
 

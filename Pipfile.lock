@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6a1b096febc919966f1a1eb3e974ad0a3c41793977c02d69da470e46d8ced84d"
+            "sha256": "d1dc9527e90718670eb408853c26fd31f255d309b184bc0c1fa50351587c73df"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -102,11 +102,11 @@
         },
         "black": {
             "hashes": [
-                "sha256:380f1b5da05e5a1429225676655dddb96f5ae8c75bdf91e53d798871b902a115",
-                "sha256:7de4cfc7eb6b710de325712d40125689101d21d25283eed7e9998722cf10eb91"
+                "sha256:802c6c30b637b28645b7fde282ed2569c0cd777dbe493a41b6a03c1d903f99ac",
+                "sha256:a042adbb18b3262faad5aff4e834ff186bb893f95ba3a8013f09de1e5569def2"
             ],
             "index": "pypi",
-            "version": "==21.9b0"
+            "version": "==21.11b1"
         },
         "bleach": {
             "hashes": [
@@ -196,10 +196,10 @@
         },
         "cline": {
             "hashes": [
-                "sha256:71108d53d7b63f53d47a288817a5014b14b296bfe3d6164b23393bde0415aa67"
+                "sha256:b27b95719d39885922f9396018f76f0fcc6f50e9b646dcdf948ad55fab439952"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==1.0.0a4"
+            "version": "==1.1.0"
         },
         "colorama": {
             "hashes": [
@@ -208,6 +208,13 @@
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
             "version": "==0.4.4"
+        },
+        "comprehemd": {
+            "hashes": [
+                "sha256:a4c0a4a3c3efe79cd2a5adbfe952f0eb8e547b7e6ddc82d4a5f77fcb0a18fe74"
+            ],
+            "index": "pypi",
+            "version": "==1.0.0a4"
         },
         "coverage": {
             "extras": [
@@ -294,10 +301,10 @@
         },
         "dinject": {
             "hashes": [
-                "sha256:7960bec3df792bd1c401b4402f18a1d3c30e078c2926f334361e6b0b4a44265e"
+                "sha256:8a7b607c0c18f1906a5db0090080aae2caa952c7fbe34992d005f1263bcfb2f2"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==1.2.0"
+            "version": "==1.3.0a3"
         },
         "docutils": {
             "hashes": [
@@ -307,12 +314,19 @@
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
             "version": "==0.18.1"
         },
+        "doutline": {
+            "hashes": [
+                "sha256:cfe938f54d4fb7bf248690f02ef59cfad6255d930ae7c22c41b5eb21dda605c8"
+            ],
+            "markers": "python_version >= '3.8'",
+            "version": "==1.0.0a3"
+        },
         "edition": {
             "hashes": [
-                "sha256:6fe5aa710527faef70898c2f70d4e46e613c6c49b61cefb8d9239a43f127f774"
+                "sha256:109dfee2b7b472f65ee0a2664df85fbc93cb2b0260c8981124578bf820bbe0f8"
             ],
             "index": "pypi",
-            "version": "==1.0.0a10"
+            "version": "==1.0.0a12"
         },
         "flake8": {
             "hashes": [
@@ -383,13 +397,6 @@
                 "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"
             ],
             "version": "==0.6.1"
-        },
-        "mdcode": {
-            "hashes": [
-                "sha256:ee44739eeb055b9cb18c7a7d0f467193cbaa1c1562c38382eae161594ab54aac"
-            ],
-            "markers": "python_version >= '3.8'",
-            "version": "==1.0.0a3"
         },
         "mock": {
             "hashes": [
@@ -782,7 +789,7 @@
                 "sha256:4987c65554f7a2dbf30c18fd48778ef124af6fab771a377103da0585e2336ece",
                 "sha256:c4fdf4019605b6e5423637e01bc9fe4daef873709a7973e195ceba0a62bbc844"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4.0'",
             "version": "==1.26.7"
         },
         "webencodings": {

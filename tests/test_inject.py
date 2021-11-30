@@ -147,6 +147,40 @@ print(1+2)
     assert second_writer.getvalue() == expect
 
 
+def test_error() -> None:
+    reader = StringIO(
+        """This is an example:
+
+```python
+print(foo)
+```
+
+<!--dinject-->
+"""
+    )
+
+    expect = """This is an example:
+
+```python
+print(foo)
+```
+
+<!--dinject as=markdown fence=backticks host=shell range=start-->
+
+```text
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+NameError: name 'foo' is not defined
+```
+
+<!--dinject range=end-->
+"""
+
+    writer = StringIO()
+    inject(reader, writer)
+    assert writer.getvalue() == expect
+
+
 def test_inject__string() -> None:
     reader = """This is an example:
 
