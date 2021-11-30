@@ -37,7 +37,10 @@ def execute(
         content = n.output
     else:
         process = run(executor.arguments, capture_output=True)
-        content = process.stdout.decode("UTF-8")
+        if process.returncode == 0:
+            content = process.stdout.decode("UTF-8")
+        else:
+            content = process.stderr.decode("UTF-8")
 
     content = content.rstrip() + "\n"
 

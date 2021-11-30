@@ -8,7 +8,7 @@ title: Dinject
 
 **Dinject** is a Python package and CLI tool for executing code blocks in Markdown documents then injecting the results.
 
-<edition value="toc" />
+<edition value="toc" hi="2" />
 
 ## Example
 
