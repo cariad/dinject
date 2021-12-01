@@ -45,7 +45,7 @@ setup(
     },
     include_package_data=True,
     install_requires=[
-        "comprehemd==1.0.0a4",
+        "comprehemd~=1.0",
         "naughtty~=1.0",
         "thtml~=1.0.5",
     ],
